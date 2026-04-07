@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="bg" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Взаимно положение на две окръжности. Общи допирателни | 8. клас</title>
+    
+    <!-- Скрипт за Dark Mode - изпълнява се веднага, за да предотврати "премигване" (FOUC) -->
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ggbBlue: '#1565C0',
+                        ggbRed: '#D32F2F',
+                        ggbGreen: '#2E7D32',
+                        tanOuter: '#F59E0B',
+                        tanInner: '#9C27B0'
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+            background-color: #f8fafc;
+            background-image: radial-gradient(circle 800px at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%), rgba(99, 102, 241, 0.12), transparent);
+        }
+        
+        .dark body {
+            background-color: #0f172a;
+            background-image: radial-gradient(circle 800px at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%), rgba(99, 102, 241, 0.25), transparent);
+        }
+
+        /* ИЗОЛИРАН КОНТЕЙНЕР ЗА GEOGEBRA
+           aspect-ratio заключва пропорциите завинаги, за да няма деформация!
+        */
+        .ggb-wrapper { 
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            display: block;
+            aspect-ratio: 900 / 550; /* КЛЮЧОВО ЗА ПРЕДОТВРАТЯВАНЕ НА ЕЛИПСИТЕ */
+        }
+
+        #ggb-element {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-color: white;
+        }
+
+        .case-item { transition: all 0.3s ease; }
+        .case-active { 
+            transform: scale(1.02) translateX(8px); 
+            border-color: #4f46e5 !important;
+            background: linear-gradient(to right, rgba(79, 70, 229, 0.1), transparent);
+            box-shadow: -4px 0 0 0 #4f46e5;
+        }
+        .dark .case-active {
+            background: linear-gradient(to right, rgba(99, 102, 241, 0.2), transparent);
+            box-shadow: -4px 0 0 0 #818cf8;
+        }
+        
+        .check-icon { opacity: 0; transform: scale(0); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .case-active .check-icon { opacity: 1; transform: scale(1); }
+
+        .big-text-animate { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { 0% { opacity: 0; transform: translateY(20px) scale(0.9); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            height: 6px;
+            border-radius: 4px;
+            outline: none;
+            margin: 10px 0;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 4px;
+        }
+        .dark input[type=range]::-webkit-slider-runnable-track {
+            background: #334155;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: -7px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        
+        #slider-r1::-webkit-slider-thumb { background: #1565C0; }
+        #slider-r2::-webkit-slider-thumb { background: #D32F2F; }
+        #slider-d::-webkit-slider-thumb { background: #2E7D32; }
+    </style>
+</head>
+<body class="text-slate-800 dark:text-slate-200 antialiased">
+
+    <!-- Header - Изчистен, за да акцентира върху банера -->
+    <header class="bg-indigo-600/90 backdrop-blur-md text-white py-4 px-6 shadow-lg sticky top-0 z-50">
+        <div class="max-w-screen-2xl mx-auto flex justify-between items-center">
+            <div class="font-bold text-xl md:text-2xl tracking-tight flex items-center gap-3">
+                <svg class="w-6 h-6 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                Интерактивен урок по геометрия
+            </div>
+            
+            <button onclick="toggleTheme()" class="bg-white/20 hover:bg-white/30 text-white p-2.5 rounded-full backdrop-blur-sm transition-all focus:outline-none ring-2 ring-white/50 shadow-md" title="Смени темата">
+                <svg id="theme-icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <svg id="theme-icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-screen-2xl mx-auto px-4 sm:px-6 pb-12 mt-8 relative z-10">
+        
+        <!-- ГЛАВЕН БАНЕР ИЗОБРАЖЕНИЕ -->
+        <div class="w-full flex justify-center mb-10 px-2">
+            <img src="2okrajnosti.png" alt="Взаимно положение на две окръжности. Общи допирателни." class="w-full max-w-5xl rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 object-contain">
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-6">
+            
+            <!-- ЛЯВ ПАНЕЛ -->
+            <aside class="w-full lg:w-[350px] flex-shrink-0 flex flex-col gap-4">
+                
+                <!-- ПЛЪЗГАЧИ -->
+                <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold flex items-center gap-2 text-indigo-700 dark:text-indigo-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                            Контроли
+                        </h2>
+                        <button onclick="randomExample()" class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 py-1.5 px-3 rounded-lg transition-colors font-bold shadow-sm border border-slate-200 dark:border-slate-600" title="Генерирай случаен пример">
+                            Случаен пример 🎲
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-sm font-bold text-[#1565C0] dark:text-[#64B5F6]">Радиус r₁</label>
+                            <span id="lbl-r1" class="font-mono font-bold bg-[#1565C0]/10 text-[#1565C0] dark:text-[#64B5F6] px-2 py-0.5 rounded">5</span>
+                        </div>
+                        <input type="range" id="slider-r1" min="1" max="10" step="0.5" value="5">
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-sm font-bold text-[#D32F2F] dark:text-[#EF5350]">Радиус r₂</label>
+                            <span id="lbl-r2" class="font-mono font-bold bg-[#D32F2F]/10 text-[#D32F2F] dark:text-[#EF5350] px-2 py-0.5 rounded">3</span>
+                        </div>
+                        <input type="range" id="slider-r2" min="1" max="10" step="0.5" value="3">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-sm font-bold text-[#2E7D32] dark:text-[#81C784]">Разстояние d (O₁O₂)</label>
+                            <span id="lbl-d" class="font-mono font-bold bg-[#2E7D32]/10 text-[#2E7D32] dark:text-[#81C784] px-2 py-0.5 rounded">10</span>
+                        </div>
+                        <input type="range" id="slider-d" min="0" max="25" step="0.5" value="10">
+                    </div>
+                </div>
+
+                <!-- СПИСЪК СЪС СЛУЧАИ -->
+                <div class="flex flex-col gap-2 mt-2">
+                    <div id="case-ext" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Външни окръжности</div>
+                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d > r₁ + r₂</div>
+                        <div class="text-xs text-slate-600 dark:text-slate-400">4 общи допирателни</div>
+                    </div>
+
+                    <div id="case-ext-touch" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Допират се външно</div>
+                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d = r₁ + r₂</div>
+                        <div class="text-xs text-slate-600 dark:text-slate-400">3 общи допирателни</div>
+                    </div>
+
+                    <div id="case-int" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Пресичат се</div>
+                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">|r₁ - r₂| < d < r₁ + r₂</div>
+                        <div class="text-xs text-slate-600 dark:text-slate-400">2 общи допирателни</div>
+                    </div>
+
+                    <div id="case-int-touch" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Допират се вътрешно</div>
+                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d = |r₁ - r₂| (d ≠ 0)</div>
+                        <div class="text-xs text-slate-600 dark:text-slate-400">1 обща допирателна</div>
+                    </div>
+
+                    <div id="case-inside" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Вътрешни (една в друга)</div>
+                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">0 < d < |r₁ - r₂|</div>
+                        <div class="text-xs text-slate-600 dark:text-slate-400">0 общи допирателни</div>
+                    </div>
+
+                    <div id="case-conc" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Концентрични окръжности</div>
+                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d = 0, r₁ ≠ r₂</div>
+                        <div class="text-xs text-slate-600 dark:text-slate-400">0 общи допирателни</div>
+                    </div>
+
+                    <div id="case-coinc" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Съвпадащи окръжности</div>
+                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d = 0, r₁ = r₂</div>
+                        <div class="text-xs text-slate-600 dark:text-slate-400">Безброй общи допирателни</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ДЕСЕН ПАНЕЛ -->
+            <div class="w-full lg:flex-1 flex flex-col min-w-0">
+                
+                <!-- Статичен контейнер с aspect-ratio, който не позволява разпъване -->
+                <div class="w-full bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 mb-6">
+                    <div class="ggb-wrapper">
+                        <!-- Самото GeoGebra платно, което следва изцяло пропорциите на wrapper-a -->
+                        <div id="ggb-element"></div>
+                    </div>
+                </div>
+
+                <div class="w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700 text-center flex flex-col items-center justify-center min-h-[160px]">
+                    <div id="big-formula" class="text-2xl md:text-3xl font-mono font-bold mb-3 tracking-wider text-slate-800 dark:text-white big-text-animate"></div>
+                    <div id="big-status" class="text-2xl md:text-4xl font-extrabold pb-1 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600 big-text-animate" style="line-height: 1.3;"></div>
+                    <div id="tangents-status" class="text-lg md:text-xl font-bold mt-3 text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-4 py-2 rounded-full inline-block border border-amber-200 dark:border-amber-700/50 big-text-animate shadow-sm"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОБОБЩИТЕЛНА ТАБЛИЦА -->
+        <section class="mt-16 pt-8 border-t border-slate-300 dark:border-slate-700">
+            <h2 class="text-2xl font-extrabold mb-6 text-center text-slate-800 dark:text-white flex justify-center items-center gap-3">
+                <svg class="w-7 h-7 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                Обобщителна таблица
+            </h2>
+            <div class="overflow-x-auto bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700">
+                <table class="w-full text-left border-collapse min-w-[850px]">
+                    <thead>
+                        <tr class="bg-indigo-50 dark:bg-slate-700/50 text-indigo-900 dark:text-indigo-200">
+                            <th class="p-4 border-b dark:border-slate-600 font-bold">Взаимно положение</th>
+                            <th class="p-4 border-b dark:border-slate-600 font-bold text-center">Чертеж</th>
+                            <th class="p-4 border-b dark:border-slate-600 font-bold">Условие (Зависимост)</th>
+                            <th class="p-4 border-b dark:border-slate-600 font-bold">Общи точки</th>
+                            <th class="p-4 border-b dark:border-slate-600 font-bold">Общи допирателни</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Външни окръжности</td>
+                            <td class="p-4 flex justify-center">
+                                <svg viewBox="0 0 120 60" class="w-24 h-12 drop-shadow-sm">
+                                    <line x1="30" y1="30" x2="90" y2="30" stroke="#2E7D32" stroke-width="2"/>
+                                    <circle cx="30" cy="30" r="20" stroke="#1565C0" stroke-width="2.5" fill="none"/>
+                                    <circle cx="90" cy="30" r="14" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
+                                    <circle cx="30" cy="30" r="2.5" fill="#1565C0"/>
+                                    <circle cx="90" cy="30" r="2.5" fill="#D32F2F"/>
+                                </svg>
+                            </td>
+                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d > r₁ + r₂</td>
+                            <td class="p-4"><span class="bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-sm font-bold">0</span></td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <span class="font-bold text-lg">4</span>
+                                        <span class="text-xs text-slate-500 block">(2 външни, 2 вътрешни)</span>
+                                    </div>
+                                    <svg viewBox="0 0 120 60" class="w-20 h-10 ml-auto drop-shadow-sm">
+                                        <line x1="10" y1="8" x2="110" y2="18" stroke="#F59E0B" stroke-width="2"/>
+                                        <line x1="10" y1="52" x2="110" y2="42" stroke="#F59E0B" stroke-width="2"/>
+                                        <line x1="35" y1="4" x2="90" y2="54" stroke="#9C27B0" stroke-width="2"/>
+                                        <line x1="35" y1="56" x2="90" y2="6" stroke="#9C27B0" stroke-width="2"/>
+                                        <circle cx="30" cy="30" r="20" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                        <circle cx="90" cy="30" r="14" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Допират се външно</td>
+                            <td class="p-4 flex justify-center">
+                                <svg viewBox="0 0 120 60" class="w-24 h-12 drop-shadow-sm">
+                                    <line x1="35" y1="30" x2="79" y2="30" stroke="#2E7D32" stroke-width="2"/>
+                                    <circle cx="35" cy="30" r="22" stroke="#1565C0" stroke-width="2.5" fill="none"/>
+                                    <circle cx="79" cy="30" r="22" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
+                                    <circle cx="35" cy="30" r="2.5" fill="#1565C0"/>
+                                    <circle cx="79" cy="30" r="2.5" fill="#D32F2F"/>
+                                </svg>
+                            </td>
+                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d = r₁ + r₂</td>
+                            <td class="p-4"><span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 px-2 py-1 rounded text-sm font-bold">1</span></td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <span class="font-bold text-lg">3</span>
+                                        <span class="text-xs text-slate-500 block">(2 външни, 1 вътрешна)</span>
+                                    </div>
+                                    <svg viewBox="0 0 120 60" class="w-20 h-10 ml-auto drop-shadow-sm">
+                                        <line x1="10" y1="8" x2="110" y2="8" stroke="#F59E0B" stroke-width="2"/>
+                                        <line x1="10" y1="52" x2="110" y2="52" stroke="#F59E0B" stroke-width="2"/>
+                                        <line x1="57" y1="0" x2="57" y2="60" stroke="#9C27B0" stroke-width="2"/>
+                                        <circle cx="35" cy="30" r="22" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                        <circle cx="79" cy="30" r="22" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Пресичат се</td>
+                            <td class="p-4 flex justify-center">
+                                <svg viewBox="0 0 120 60" class="w-24 h-12 drop-shadow-sm">
+                                    <line x1="40" y1="30" x2="70" y2="30" stroke="#2E7D32" stroke-width="2"/>
+                                    <circle cx="40" cy="30" r="22" stroke="#1565C0" stroke-width="2.5" fill="none"/>
+                                    <circle cx="70" cy="30" r="18" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
+                                    <circle cx="40" cy="30" r="2.5" fill="#1565C0"/>
+                                    <circle cx="70" cy="30" r="2.5" fill="#D32F2F"/>
+                                </svg>
+                            </td>
+                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">|r₁ - r₂| < d < r₁ + r₂</td>
+                            <td class="p-4"><span class="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 px-2 py-1 rounded text-sm font-bold">2</span></td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <span class="font-bold text-lg">2</span>
+                                        <span class="text-xs text-slate-500 block">(само външни)</span>
+                                    </div>
+                                    <svg viewBox="0 0 120 60" class="w-20 h-10 ml-auto drop-shadow-sm">
+                                        <line x1="15" y1="6" x2="95" y2="16" stroke="#F59E0B" stroke-width="2"/>
+                                        <line x1="15" y1="54" x2="95" y2="44" stroke="#F59E0B" stroke-width="2"/>
+                                        <circle cx="40" cy="30" r="22" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                        <circle cx="70" cy="30" r="18" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Допират се вътрешно</td>
+                            <td class="p-4 flex justify-center">
+                                <svg viewBox="0 0 120 60" class="w-24 h-12 drop-shadow-sm">
+                                    <line x1="55" y1="30" x2="67" y2="30" stroke="#2E7D32" stroke-width="2"/>
+                                    <circle cx="55" cy="30" r="26" stroke="#1565C0" stroke-width="2.5" fill="none"/>
+                                    <circle cx="67" cy="30" r="14" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
+                                    <circle cx="55" cy="30" r="2.5" fill="#1565C0"/>
+                                    <circle cx="67" cy="30" r="2.5" fill="#D32F2F"/>
+                                </svg>
+                            </td>
+                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d = |r₁ - r₂|, d ≠ 0</td>
+                            <td class="p-4"><span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 px-2 py-1 rounded text-sm font-bold">1</span></td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <span class="font-bold text-lg">1</span>
+                                        <span class="text-xs text-slate-500 block">(външна)</span>
+                                    </div>
+                                    <svg viewBox="0 0 120 60" class="w-20 h-10 ml-auto drop-shadow-sm">
+                                        <line x1="81" y1="0" x2="81" y2="60" stroke="#F59E0B" stroke-width="2"/>
+                                        <circle cx="55" cy="30" r="26" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                        <circle cx="67" cy="30" r="14" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Вътрешни (една в друга)</td>
+                            <td class="p-4 flex justify-center">
+                                <svg viewBox="0 0 120 60" class="w-24 h-12 drop-shadow-sm">
+                                    <line x1="60" y1="30" x2="65" y2="30" stroke="#2E7D32" stroke-width="2"/>
+                                    <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2.5" fill="none"/>
+                                    <circle cx="65" cy="30" r="10" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
+                                    <circle cx="60" cy="30" r="2.5" fill="#1565C0"/>
+                                    <circle cx="65" cy="30" r="2.5" fill="#D32F2F"/>
+                                </svg>
+                            </td>
+                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">0 < d < |r₁ - r₂|</td>
+                            <td class="p-4"><span class="bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-sm font-bold">0</span></td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <span class="font-bold text-lg">0</span>
+                                    </div>
+                                    <svg viewBox="0 0 120 60" class="w-20 h-10 ml-auto drop-shadow-sm opacity-60">
+                                        <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                        <circle cx="65" cy="30" r="10" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Концентрични</td>
+                            <td class="p-4 flex justify-center">
+                                <svg viewBox="0 0 120 60" class="w-24 h-12 drop-shadow-sm">
+                                    <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2.5" fill="none"/>
+                                    <circle cx="60" cy="30" r="12" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
+                                    <circle cx="60" cy="30" r="3" fill="#2E7D32"/>
+                                </svg>
+                            </td>
+                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d = 0, r₁ ≠ r₂</td>
+                            <td class="p-4"><span class="bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-sm font-bold">0</span></td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <span class="font-bold text-lg">0</span>
+                                    </div>
+                                    <svg viewBox="0 0 120 60" class="w-20 h-10 ml-auto drop-shadow-sm opacity-60">
+                                        <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                        <circle cx="60" cy="30" r="12" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Съвпадащи</td>
+                            <td class="p-4 flex justify-center">
+                                <svg viewBox="0 0 120 60" class="w-24 h-12 drop-shadow-sm">
+                                    <circle cx="60" cy="30" r="22" stroke="#1565C0" stroke-width="3" fill="none"/>
+                                    <circle cx="60" cy="30" r="22" stroke="#D32F2F" stroke-width="3" stroke-dasharray="6,4" fill="none"/>
+                                    <circle cx="60" cy="30" r="3" fill="#9C27B0"/>
+                                </svg>
+                            </td>
+                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d = 0, r₁ = r₂</td>
+                            <td class="p-4"><span class="bg-purple-100 text-purple-700 dark:bg-purple-900/50 px-2 py-1 rounded text-sm font-bold">Безброй</span></td>
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <span class="font-bold text-lg">Безброй</span>
+                                        <span class="text-xs text-slate-500 block">(съвпадат с окръжността)</span>
+                                    </div>
+                                    <svg viewBox="0 0 120 60" class="w-20 h-10 ml-auto drop-shadow-sm">
+                                        <line x1="10" y1="8" x2="110" y2="8" stroke="#9C27B0" stroke-width="1.5" stroke-dasharray="4,2"/>
+                                        <line x1="28" y1="62" x2="92" y2="-2" stroke="#9C27B0" stroke-width="1.5" stroke-dasharray="4,2"/>
+                                        <line x1="28" y1="-2" x2="92" y2="62" stroke="#9C27B0" stroke-width="1.5" stroke-dasharray="4,2"/>
+                                        <circle cx="60" cy="30" r="22" stroke="#1565C0" stroke-width="2.5" fill="none"/>
+                                        <circle cx="60" cy="30" r="22" stroke="#D32F2F" stroke-width="2.5" stroke-dasharray="6,4" fill="none"/>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- 1. ОСНОВНИ НАСТРОЙКИ И ПОМОЩНИ ФУНКЦИИ ---
+        const EPSILON = 0.0001;
+        const equal = (a, b) => Math.abs(a - b) < EPSILON;
+        let ggbAPI;
+        let lastStateId = '';
+
+        // Структура от данни, съдържаща логиката и стиловете за всички случаи
+        const CIRCLE_CASES = [
+            {
+                id: 'case-coinc',
+                check: (d, r1, r2, sum, diff) => equal(d, 0) && equal(r1, r2),
+                title: 'Съвпадащи окръжности',
+                formula: (d, r1, r2) => `d = 0, r₁ = r₂ &nbsp;&nbsp; (${r1} = ${r2})`,
+                statusText: 'Окръжностите съвпадат',
+                tangentsText: 'Безброй много общи допирателни',
+                gradient: 'from-purple-600 to-pink-800 dark:from-purple-400 dark:to-pink-400',
+                hasTangents: true
+            },
+            {
+                id: 'case-conc',
+                check: (d, r1, r2, sum, diff) => equal(d, 0) && !equal(r1, r2),
+                title: 'Концентрични окръжности',
+                formula: (d, r1, r2) => `d = 0, r₁ ≠ r₂ &nbsp;&nbsp; (${r1} ≠ ${r2})`,
+                statusText: 'Окръжностите са концентрични',
+                tangentsText: 'Нямат общи допирателни',
+                gradient: 'from-slate-500 to-slate-800 dark:from-slate-300 dark:to-slate-100',
+                hasTangents: false
+            },
+            {
+                id: 'case-inside',
+                check: (d, r1, r2, sum, diff) => d < diff && !equal(d, diff) && !equal(d, 0),
+                title: 'Едната е вътре в другата',
+                formula: (d, r1, r2, sum, diff) => `0 < d < |r₁ - r₂| &nbsp;&nbsp; (0 < ${d} < ${Math.round(diff*10)/10})`,
+                statusText: 'Едната е вътре в другата',
+                tangentsText: 'Нямат общи допирателни',
+                gradient: 'from-rose-500 to-red-600 dark:from-rose-400 dark:to-red-400',
+                hasTangents: false
+            },
+            {
+                id: 'case-int-touch',
+                check: (d, r1, r2, sum, diff) => equal(d, diff) && !equal(d, 0),
+                title: 'Допират се вътрешно',
+                formula: (d, r1, r2, sum, diff) => `d = |r₁ - r₂| &nbsp;&nbsp; (${d} = ${Math.round(diff*10)/10})`,
+                statusText: 'Допират се вътрешно',
+                tangentsText: '1 обща допирателна (външна)',
+                gradient: 'from-purple-500 to-pink-600 dark:from-purple-400 dark:to-pink-400',
+                hasTangents: true
+            },
+            {
+                id: 'case-int',
+                check: (d, r1, r2, sum, diff) => d < sum && d > diff && !equal(d, sum) && !equal(d, diff),
+                title: 'Пресичат се',
+                formula: (d, r1, r2, sum, diff) => `|r₁ - r₂| < d < r₁ + r₂ &nbsp;&nbsp; (${Math.round(diff*10)/10} < ${d} < ${Math.round(sum*10)/10})`,
+                statusText: 'Окръжностите се пресичат',
+                tangentsText: '2 общи допирателни (външни)',
+                gradient: 'from-amber-500 to-orange-600 dark:from-amber-400 dark:to-orange-400',
+                hasTangents: true
+            },
+            {
+                id: 'case-ext-touch',
+                check: (d, r1, r2, sum, diff) => equal(d, sum),
+                title: 'Допират се външно',
+                formula: (d, r1, r2, sum, diff) => `d = r₁ + r₂ &nbsp;&nbsp; (${d} = ${Math.round(sum*10)/10})`,
+                statusText: 'Допират се външно',
+                tangentsText: '3 общи допирателни (2 външни и 1 вътрешна)',
+                gradient: 'from-emerald-500 to-teal-600 dark:from-emerald-400 dark:to-teal-400',
+                hasTangents: true
+            },
+            {
+                id: 'case-ext',
+                check: (d, r1, r2, sum, diff) => d > sum && !equal(d, sum),
+                title: 'Външни окръжности',
+                formula: (d, r1, r2, sum, diff) => `d > r₁ + r₂ &nbsp;&nbsp; (${d} > ${Math.round(sum*10)/10})`,
+                statusText: 'Окръжностите са външни',
+                tangentsText: '4 общи допирателни (2 външни и 2 вътрешни)',
+                gradient: 'from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-400',
+                hasTangents: true
+            }
+        ];
+
+        // --- 2. УПРАВЛЕНИЕ НА ТЕМАТА И МИШКАТА ---
+        document.addEventListener('mousemove', (e) => {
+            document.body.style.setProperty('--mouse-x', e.clientX / window.innerWidth);
+            document.body.style.setProperty('--mouse-y', e.clientY / window.innerHeight);
+        });
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            document.getElementById('theme-icon-sun').classList.toggle('hidden', !isDark);
+            document.getElementById('theme-icon-moon').classList.toggle('hidden', isDark);
+            localStorage.theme = isDark ? 'dark' : 'light';
+        }
+
+        // --- 3. ГЕНЕРАТОР НА СЛУЧАЙНИ ПРИМЕРИ ---
+        function randomExample() {
+            const caseTypes = ['coinc', 'conc', 'inside', 'int-touch', 'int', 'ext-touch', 'ext'];
+            const targetCase = caseTypes[Math.floor(Math.random() * caseTypes.length)];
+            
+            let r1 = Math.floor(Math.random() * 8) + 2; 
+            let r2 = Math.floor(Math.random() * 8) + 2; 
+            let d;
+
+            switch(targetCase) {
+                case 'coinc':
+                    r2 = r1;
+                    d = 0;
+                    break;
+                case 'conc':
+                    if (r1 === r2) r2 = r1 === 9 ? 8 : r1 + 1;
+                    d = 0;
+                    break;
+                case 'inside':
+                    if (r1 === r2) r2 = r1 === 9 ? 6 : r1 + 2;
+                    d = Math.abs(r1 - r2) / 2;
+                    break;
+                case 'int-touch':
+                    if (r1 === r2) r2 = r1 === 9 ? 6 : r1 + 2;
+                    d = Math.abs(r1 - r2);
+                    break;
+                case 'int':
+                    let diff = Math.abs(r1 - r2);
+                    let sum = r1 + r2;
+                    if (sum - diff < 2) { r1+=2; sum+=2; diff = Math.abs(r1-r2); } 
+                    d = diff + (sum - diff) / 2;
+                    break;
+                case 'ext-touch':
+                    d = r1 + r2;
+                    break;
+                case 'ext':
+                    d = r1 + r2 + Math.floor(Math.random() * 4) + 1;
+                    break;
+            }
+
+            if (d > 25) d = 25;
+
+            document.getElementById('slider-r1').value = r1;
+            document.getElementById('slider-r2').value = r2;
+            document.getElementById('slider-d').value = d;
+            
+            updateFromHTML();
+        }
+
+        // --- 4. ИНИЦИАЛИЗАЦИЯ НА GEOGEBRA ---
+        var params = {
+            "appName": "geometry",
+            "width": 900, 
+            "height": 550,
+            "showToolBar": false,
+            "showAlgebraInput": false,
+            "showMenuBar": false,
+            "enableRightClick": false,
+            "enableLabelDrags": false,
+            "enableShiftDragZoom": false, 
+            "errorDialogsActive": false,
+            "language": "bg",
+            "scaleContainerClass": "ggb-wrapper",
+            "allowUpscale": true,
+            "appletOnLoad": function(api) {
+                ggbAPI = api;
+
+                // Ключово: Задаваме съотношение 1:1 В САМОТО НАЧАЛО
+                api.evalCommand('SetAxesRatio(1, 1)');
+                
+                api.evalCommand('r1 = 5');
+                api.evalCommand('r2 = 3');
+                api.evalCommand('d = 10');
+                
+                api.evalCommand('O1 = (0, 0)');
+                api.evalCommand('O2 = (d, 0)');
+                api.evalCommand('SetFixed(O1, true)');
+                api.evalCommand('SetFixed(O2, true)');
+                
+                api.evalCommand('SetPointStyle(O1, 10)'); 
+                api.evalCommand('SetPointSize(O1, 5)');
+                api.evalCommand('SetColor(O1, "#1565C0")');
+                api.evalCommand('SetLabelMode(O1, 1)'); 
+                
+                api.evalCommand('SetPointStyle(O2, 10)');
+                api.evalCommand('SetPointSize(O2, 5)');
+                api.evalCommand('SetColor(O2, "#D32F2F")');
+                api.evalCommand('SetLabelMode(O2, 1)');
+
+                api.evalCommand('k1 = Circle(O1, r1)');
+                api.evalCommand('k2 = Circle(O2, r2)');
+                api.evalCommand('SetColor(k1, "#1565C0")'); 
+                api.evalCommand('SetThickness(k1, 5)');
+                api.evalCommand('SetColor(k2, "#D32F2F")'); 
+                api.evalCommand('SetThickness(k2, 5)');
+                
+                api.evalCommand('s = Segment(O1, O2)');
+                api.evalCommand('SetColor(s, "#2E7D32")');  
+                api.evalCommand('SetThickness(s, 5)');
+                api.evalCommand('SetLabelMode(s, 3)'); 
+                api.evalCommand('SetCaption(s, "d")');
+
+                api.evalCommand('P1 = O1 + (r1 * cos(135°), r1 * sin(135°))');
+                api.evalCommand('P2 = O2 + (r2 * cos(45°), r2 * sin(45°))');
+                api.evalCommand('rad1 = Segment(O1, P1)');
+                api.evalCommand('rad2 = Segment(O2, P2)');
+                api.evalCommand('SetColor(rad1, "#1565C0")');
+                api.evalCommand('SetColor(rad2, "#D32F2F")');
+                api.evalCommand('SetLineStyle(rad1, 2)');
+                api.evalCommand('SetLineStyle(rad2, 2)');
+                api.evalCommand('SetLabelMode(rad1, 3)');
+                api.evalCommand('SetCaption(rad1, "r_1")');
+                api.evalCommand('SetLabelMode(rad2, 3)');
+                api.evalCommand('SetCaption(rad2, "r_2")');
+                api.evalCommand('SetVisibleInView(P1, 1, false)'); 
+                api.evalCommand('SetVisibleInView(P2, 1, false)');
+
+                api.evalCommand('tL = Tangent(k1, k2)');
+                api.evalCommand('SetVisibleInView(tL, 1, false)');
+                
+                api.evalCommand('t1 = Element(tL, 1)');
+                api.evalCommand('t2 = Element(tL, 2)');
+                api.evalCommand('t3 = Element(tL, 3)');
+                api.evalCommand('t4 = Element(tL, 4)');
+                
+                api.evalCommand('SetColor(t1, "#F59E0B")'); api.evalCommand('SetLineThickness(t1, 3)');
+                api.evalCommand('SetColor(t2, "#F59E0B")'); api.evalCommand('SetLineThickness(t2, 3)');
+                api.evalCommand('SetColor(t3, "#9C27B0")'); api.evalCommand('SetLineThickness(t3, 3)');
+                api.evalCommand('SetColor(t4, "#9C27B0")'); api.evalCommand('SetLineThickness(t4, 3)');
+
+                api.evalCommand('iL = Intersect(k1, k2)');
+                api.evalCommand('SetVisibleInView(iL, 1, false)');
+                
+                api.evalCommand('ptInt1 = Element(iL, 1)');
+                api.evalCommand('ptInt2 = Element(iL, 2)');
+                api.evalCommand('SetPointStyle(ptInt1, 2)'); api.evalCommand('SetPointSize(ptInt1, 5)'); api.evalCommand('SetColor(ptInt1, "#000000")');
+                api.evalCommand('SetPointStyle(ptInt2, 2)'); api.evalCommand('SetPointSize(ptInt2, 5)'); api.evalCommand('SetColor(ptInt2, "#000000")');
+
+                api.setGridVisible(false);
+                api.setAxesVisible(false);
+                
+                // ФИНАЛНО РЕШЕНИЕ ЗА ВИДИМОСТ И ПРОПОРЦИИ:
+                // Задаваме точен обхват на координатната система (minX, minY, maxX, maxY).
+                // Тези координати са изчислени така, че да имат ТОЧНО съотношение 900:550 (18:11),
+                // което съвпада със CSS контейнера. Така гарантираме, че чертежът се вижда целия 
+                // и окръжностите остават перфектни кръгове!
+                api.evalCommand('ZoomIn(-12.25, -15.125, 37.25, 15.125)');
+                
+                // Принудително заключване, за да сме 1000% сигурни
+                api.evalCommand('SetAxesRatio(1, 1)'); 
+                
+                api.registerUpdateListener((objName) => {
+                    if (objName === 'tL' && api.getVisible('tL')) api.setVisible('tL', false);
+                    if (objName === 'iL' && api.getVisible('iL')) api.setVisible('iL', false);
+                });
+
+                updateUI();
+            }
+        };
+
+        var ggbApp = new GGBApplet(params, true);
+        window.onload = function() {
+            ggbApp.inject('ggb-element');
+            const isDark = document.documentElement.classList.contains('dark');
+            document.getElementById('theme-icon-sun').classList.toggle('hidden', !isDark);
+            document.getElementById('theme-icon-moon').classList.toggle('hidden', isDark);
+        };
+
+        // --- 5. ОБНОВЯВАНЕ И СИНХРОНИЗАЦИЯ НА ИНТЕРФЕЙСА ---
+        const sliderR1 = document.getElementById('slider-r1');
+        const sliderR2 = document.getElementById('slider-r2');
+        const sliderD = document.getElementById('slider-d');
+
+        function updateFromHTML() {
+            if (!ggbAPI) return;
+            
+            const r1 = parseFloat(sliderR1.value);
+            const r2 = parseFloat(sliderR2.value);
+            const d = parseFloat(sliderD.value);
+            
+            ggbAPI.setValue('r1', r1);
+            ggbAPI.setValue('r2', r2);
+            ggbAPI.setValue('d', d);
+            
+            updateUI();
+        }
+
+        sliderR1.addEventListener('input', updateFromHTML);
+        sliderR2.addEventListener('input', updateFromHTML);
+        sliderD.addEventListener('input', updateFromHTML);
+
+        function updateUI() {
+            if (!ggbAPI) return;
+
+            const r1 = parseFloat(sliderR1.value);
+            const r2 = parseFloat(sliderR2.value);
+            const d = parseFloat(sliderD.value);
+
+            const sum = r1 + r2;
+            const diff = Math.abs(r1 - r2);
+
+            document.getElementById('lbl-r1').innerText = r1;
+            document.getElementById('lbl-r2').innerText = r2;
+            document.getElementById('lbl-d').innerText = d;
+
+            const currentCase = CIRCLE_CASES.find(c => c.check(d, r1, r2, sum, diff));
+            if (!currentCase) return; 
+
+            if (currentCase.id !== lastStateId) {
+                document.querySelectorAll('.case-item').forEach(el => el.classList.remove('case-active'));
+                const activeItem = document.getElementById(currentCase.id);
+                if (activeItem) activeItem.classList.add('case-active');
+
+                const statusEl = document.getElementById('big-status');
+                const formulaEl = document.getElementById('big-formula');
+                const tangentsEl = document.getElementById('tangents-status');
+                
+                statusEl.classList.remove('big-text-animate');
+                formulaEl.classList.remove('big-text-animate');
+                tangentsEl.classList.remove('big-text-animate');
+                void statusEl.offsetWidth; 
+                
+                statusEl.innerHTML = currentCase.statusText;
+                formulaEl.innerHTML = currentCase.formula(d, r1, r2, sum, diff);
+                tangentsEl.innerHTML = currentCase.tangentsText;
+                
+                statusEl.className = `text-2xl md:text-4xl font-extrabold pb-1 bg-clip-text text-transparent bg-gradient-to-r ${currentCase.gradient} big-text-animate`;
+                formulaEl.classList.add('big-text-animate');
+                
+                if(!currentCase.hasTangents) {
+                    tangentsEl.className = `text-lg md:text-xl font-bold mt-3 text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-4 py-2 rounded-full inline-block border border-slate-300 dark:border-slate-600 big-text-animate shadow-sm`;
+                } else {
+                    tangentsEl.className = `text-lg md:text-xl font-bold mt-3 text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-4 py-2 rounded-full inline-block border border-amber-200 dark:border-amber-700/50 big-text-animate shadow-sm`;
+                }
+
+                lastStateId = currentCase.id;
+            } else {
+                document.getElementById('big-formula').innerHTML = currentCase.formula(d, r1, r2, sum, diff);
+            }
+        }
+    </script>
+</body>
+</html>
