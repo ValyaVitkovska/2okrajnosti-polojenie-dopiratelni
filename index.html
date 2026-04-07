@@ -126,10 +126,17 @@
 
     <!-- Header - Изчистен, за да акцентира върху банера -->
     <header class="bg-indigo-600/90 backdrop-blur-md text-white py-4 px-6 shadow-lg sticky top-0 z-50">
-        <div class="max-w-screen-2xl mx-auto flex justify-between items-center">
-            <div class="font-bold text-xl md:text-2xl tracking-tight flex items-center gap-3">
-                <svg class="w-6 h-6 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-                Интерактивен урок по геометрия
+        <div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+            <div class="flex flex-col gap-1 items-center md:items-start text-center md:text-left">
+                <div class="font-bold text-xl md:text-2xl tracking-tight flex items-center justify-center md:justify-start gap-3">
+                    <svg class="w-6 h-6 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
+                    Интерактивен урок по геометрия
+                </div>
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 text-sm text-indigo-200 md:ml-9">
+                    <span>По идея на <strong class="text-white">Валя Витковска</strong></span>
+                    <span class="opacity-50">•</span>
+                    <span>Реализация: <strong class="text-white">Gemini Canvas</strong></span>
+                </div>
             </div>
             
             <button onclick="toggleTheme()" class="bg-white/20 hover:bg-white/30 text-white p-2.5 rounded-full backdrop-blur-sm transition-all focus:outline-none ring-2 ring-white/50 shadow-md" title="Смени темата">
