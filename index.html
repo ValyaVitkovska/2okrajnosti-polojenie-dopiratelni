@@ -827,6 +827,9 @@
                 api.evalCommand('ShowLabel(O_1, true)');
                 api.evalCommand('ShowLabel(O_2, true)');
                 
+                // Регистриране на слушател за промени от GeoGebra към UI
+                api.registerUpdateListener("syncUIFromGGB");
+                
                 // Първоначално обновление
                 updateUI();
             }
@@ -842,7 +845,12 @@
         const sliderR2 = document.getElementById('slider-r2');
         const sliderD = document.getElementById('slider-d');
 
+        let isSyncing = false; // Флаг против безкрайни цикли при двупосочно обновяване
+
         function updateUI() {
+            if (isSyncing) return;
+            isSyncing = true;
+
             const r1 = parseFloat(sliderR1.value);
             const r2 = parseFloat(sliderR2.value);
             const d = parseFloat(sliderD.value);
@@ -861,7 +869,49 @@
             
             // Оценка на случая
             evaluateCase(r1, r2, d);
+            
+            isSyncing = false;
         }
+
+        // Функция, която се вика от GeoGebra, когато потребителят мести обекти с мишката
+        window.syncUIFromGGB = function(objName) {
+            if (isSyncing || !ggbAppletApi) return;
+            
+            // Реагираме само при промяна на ключовите параметри
+            if (objName !== 'r_1' && objName !== 'r_2' && objName !== 'd' && objName !== 'O_2') return;
+
+            isSyncing = true;
+            
+            let r1 = ggbAppletApi.getValue('r_1');
+            let r2 = ggbAppletApi.getValue('r_2');
+            let d = ggbAppletApi.getValue('d');
+            
+            // Ако потребителят е влачил директно центъра O2
+            if (objName === 'O_2') {
+                d = ggbAppletApi.getXcoord('O_2');
+                ggbAppletApi.setValue('d', d);
+            }
+            
+            // Закръгляме до 1 знак след запетаята за четимост и налагаме границите на плъзгачите
+            r1 = Math.max(1, Math.min(10, Math.round(Math.abs(r1) * 10) / 10));
+            r2 = Math.max(1, Math.min(10, Math.round(Math.abs(r2) * 10) / 10));
+            d = Math.max(0, Math.min(25, Math.round(Math.abs(d) * 10) / 10));
+            
+            // Актуализираме плъзгачите
+            sliderR1.value = r1;
+            sliderR2.value = r2;
+            sliderD.value = d;
+            
+            // Актуализираме етикетите
+            document.getElementById('lbl-r1').innerText = r1;
+            document.getElementById('lbl-r2').innerText = r2;
+            document.getElementById('lbl-d').innerText = d;
+            
+            // Оценяваме геометричния случай
+            evaluateCase(r1, r2, d);
+            
+            isSyncing = false;
+        };
 
         sliderR1.addEventListener('input', updateUI);
         sliderR2.addEventListener('input', updateUI);
