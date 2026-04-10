@@ -827,8 +827,13 @@
                 api.evalCommand('ShowLabel(O_1, true)');
                 api.evalCommand('ShowLabel(O_2, true)');
                 
-                // Регистриране на слушател за промени от GeoGebra към UI
-                api.registerUpdateListener("syncUIFromGGB");
+                // ЗАКЛЮЧВАНЕ НА ОБЕКТИТЕ (Забранява селектиране и влачене)
+                api.setFixed('O_1', true, false);
+                api.setFixed('O_2', true, false);
+                api.setFixed('c_1', true, false);
+                api.setFixed('c_2', true, false);
+                api.setFixed('seg', true, false);
+                api.setFixed('tans', true, false);
                 
                 // Първоначално обновление
                 updateUI();
