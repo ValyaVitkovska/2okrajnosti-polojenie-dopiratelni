@@ -332,184 +332,187 @@
                 Обобщителна таблица
             </h2>
             <div class="overflow-x-auto bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700">
-                <table class="w-full text-left border-collapse min-w-[850px]">
+                <table class="w-full text-left border-collapse min-w-[750px]">
                     <thead>
                         <tr class="bg-indigo-50 dark:bg-slate-700/50 text-indigo-900 dark:text-indigo-200">
-                            <th class="p-4 border-b dark:border-slate-600 font-bold">Взаимно положение</th>
-                            <th class="p-4 border-b dark:border-slate-600 font-bold text-center">Чертеж</th>
-                            <th class="p-4 border-b dark:border-slate-600 font-bold">Условие (Зависимост)</th>
-                            <th class="p-4 border-b dark:border-slate-600 font-bold">Общи точки</th>
-                            <th class="p-4 border-b dark:border-slate-600 font-bold">Общи допирателни</th>
+                            <th class="p-4 border-b dark:border-slate-600 font-bold w-1/4">Взаимно положение и Условие</th>
+                            <th class="p-4 border-b dark:border-slate-600 font-bold text-center">Комплексен чертеж</th>
+                            <th class="p-4 border-b dark:border-slate-600 font-bold text-center w-1/6">Общи точки</th>
+                            <th class="p-4 border-b dark:border-slate-600 font-bold text-center w-1/4">Общи допирателни</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Външни окръжности</td>
+                            <td class="p-4 align-middle">
+                                <div class="font-semibold text-slate-800 dark:text-slate-200 text-lg">Външни окръжности</div>
+                                <div class="font-mono text-indigo-600 dark:text-indigo-400 mt-1 font-bold">d > r₁ + r₂</div>
+                            </td>
                             <td class="p-4 flex justify-center">
-                                <svg viewBox="0 0 120 60" class="w-24 h-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                    <line x1="30" y1="30" x2="90" y2="30" stroke="#2E7D32" stroke-width="2"/>
-                                    <circle cx="30" cy="30" r="20" stroke="#1565C0" stroke-width="2.5" fill="none"/>
-                                    <circle cx="90" cy="30" r="14" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
-                                    <circle cx="30" cy="30" r="2.5" fill="#1565C0"/>
-                                    <circle cx="90" cy="30" r="2.5" fill="#D32F2F"/>
+                                <svg viewBox="0 0 120 60" class="w-40 sm:w-56 h-auto drop-shadow-md transition-transform hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                    <line x1="30" y1="30" x2="90" y2="30" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="2 1"/>
+                                    <!-- Tangents -->
+                                    <line x1="10" y1="8" x2="110" y2="18" stroke="#F59E0B" stroke-width="1.5"/>
+                                    <line x1="10" y1="52" x2="110" y2="42" stroke="#F59E0B" stroke-width="1.5"/>
+                                    <line x1="35" y1="4" x2="90" y2="54" stroke="#9C27B0" stroke-width="1.5"/>
+                                    <line x1="35" y1="56" x2="90" y2="6" stroke="#9C27B0" stroke-width="1.5"/>
+                                    <!-- Circles -->
+                                    <circle cx="30" cy="30" r="20" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                    <circle cx="90" cy="30" r="14" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    <!-- Centers -->
+                                    <circle cx="30" cy="30" r="2" fill="#1565C0"/>
+                                    <circle cx="90" cy="30" r="2" fill="#D32F2F"/>
                                 </svg>
                             </td>
-                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d > r₁ + r₂</td>
-                            <td class="p-4"><span class="bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-sm font-bold">0</span></td>
-                            <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <span class="font-bold text-lg">4</span>
-                                        <span class="text-xs text-slate-500 block">(2 външни, 2 вътрешни)</span>
-                                    </div>
-                                    <svg viewBox="0 0 120 60" class="w-20 h-auto ml-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                        <line x1="10" y1="8" x2="110" y2="18" stroke="#F59E0B" stroke-width="2"/>
-                                        <line x1="10" y1="52" x2="110" y2="42" stroke="#F59E0B" stroke-width="2"/>
-                                        <line x1="35" y1="4" x2="90" y2="54" stroke="#9C27B0" stroke-width="2"/>
-                                        <line x1="35" y1="56" x2="90" y2="6" stroke="#9C27B0" stroke-width="2"/>
-                                        <circle cx="30" cy="30" r="20" stroke="#1565C0" stroke-width="2" fill="none"/>
-                                        <circle cx="90" cy="30" r="14" stroke="#D32F2F" stroke-width="2" fill="none"/>
-                                    </svg>
+                            <td class="p-4 text-center align-middle"><span class="bg-slate-200 dark:bg-slate-700 px-3 py-1.5 rounded-lg text-base font-bold shadow-sm">0</span></td>
+                            <td class="p-4 text-center align-middle">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="font-bold text-xl text-amber-600 dark:text-amber-500">4</span>
+                                    <span class="text-xs text-slate-500 font-medium whitespace-nowrap">(2 външни, 2 вътрешни)</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Допират се външно</td>
+                            <td class="p-4 align-middle">
+                                <div class="font-semibold text-slate-800 dark:text-slate-200 text-lg">Допират се външно</div>
+                                <div class="font-mono text-indigo-600 dark:text-indigo-400 mt-1 font-bold">d = r₁ + r₂</div>
+                            </td>
                             <td class="p-4 flex justify-center">
-                                <svg viewBox="0 0 120 60" class="w-24 h-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                    <line x1="35" y1="30" x2="79" y2="30" stroke="#2E7D32" stroke-width="2"/>
-                                    <circle cx="35" cy="30" r="22" stroke="#1565C0" stroke-width="2.5" fill="none"/>
-                                    <circle cx="79" cy="30" r="22" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
-                                    <circle cx="35" cy="30" r="2.5" fill="#1565C0"/>
-                                    <circle cx="79" cy="30" r="2.5" fill="#D32F2F"/>
+                                <svg viewBox="0 0 120 60" class="w-40 sm:w-56 h-auto drop-shadow-md transition-transform hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                    <line x1="35" y1="30" x2="79" y2="30" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="2 1"/>
+                                    <!-- Tangents -->
+                                    <line x1="10" y1="8" x2="110" y2="8" stroke="#F59E0B" stroke-width="1.5"/>
+                                    <line x1="10" y1="52" x2="110" y2="52" stroke="#F59E0B" stroke-width="1.5"/>
+                                    <line x1="57" y1="0" x2="57" y2="60" stroke="#9C27B0" stroke-width="1.5"/>
+                                    <!-- Circles -->
+                                    <circle cx="35" cy="30" r="22" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                    <circle cx="79" cy="30" r="22" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    <!-- Centers -->
+                                    <circle cx="35" cy="30" r="2" fill="#1565C0"/>
+                                    <circle cx="79" cy="30" r="2" fill="#D32F2F"/>
                                 </svg>
                             </td>
-                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d = r₁ + r₂</td>
-                            <td class="p-4"><span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 px-2 py-1 rounded text-sm font-bold">1</span></td>
-                            <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <span class="font-bold text-lg">3</span>
-                                        <span class="text-xs text-slate-500 block">(2 външни, 1 вътрешна)</span>
-                                    </div>
-                                    <svg viewBox="0 0 120 60" class="w-20 h-auto ml-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                        <line x1="10" y1="8" x2="110" y2="8" stroke="#F59E0B" stroke-width="2"/>
-                                        <line x1="10" y1="52" x2="110" y2="52" stroke="#F59E0B" stroke-width="2"/>
-                                        <line x1="57" y1="0" x2="57" y2="60" stroke="#9C27B0" stroke-width="2"/>
-                                        <circle cx="35" cy="30" r="22" stroke="#1565C0" stroke-width="2" fill="none"/>
-                                        <circle cx="79" cy="30" r="22" stroke="#D32F2F" stroke-width="2" fill="none"/>
-                                    </svg>
+                            <td class="p-4 text-center align-middle"><span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 px-3 py-1.5 rounded-lg text-base font-bold shadow-sm">1</span></td>
+                            <td class="p-4 text-center align-middle">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="font-bold text-xl text-amber-600 dark:text-amber-500">3</span>
+                                    <span class="text-xs text-slate-500 font-medium whitespace-nowrap">(2 външни, 1 вътрешна)</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Пресичат се</td>
+                            <td class="p-4 align-middle">
+                                <div class="font-semibold text-slate-800 dark:text-slate-200 text-lg">Пресичат се</div>
+                                <div class="font-mono text-indigo-600 dark:text-indigo-400 mt-1 font-bold">|r₁ - r₂| < d < r₁ + r₂</div>
+                            </td>
                             <td class="p-4 flex justify-center">
-                                <svg viewBox="0 0 120 60" class="w-24 h-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                    <line x1="40" y1="30" x2="70" y2="30" stroke="#2E7D32" stroke-width="2"/>
-                                    <circle cx="40" cy="30" r="22" stroke="#1565C0" stroke-width="2.5" fill="none"/>
-                                    <circle cx="70" cy="30" r="18" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
-                                    <circle cx="40" cy="30" r="2.5" fill="#1565C0"/>
-                                    <circle cx="70" cy="30" r="2.5" fill="#D32F2F"/>
+                                <svg viewBox="0 0 120 60" class="w-40 sm:w-56 h-auto drop-shadow-md transition-transform hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                    <line x1="40" y1="30" x2="70" y2="30" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="2 1"/>
+                                    <!-- Tangents -->
+                                    <line x1="15" y1="6" x2="95" y2="16" stroke="#F59E0B" stroke-width="1.5"/>
+                                    <line x1="15" y1="54" x2="95" y2="44" stroke="#F59E0B" stroke-width="1.5"/>
+                                    <!-- Circles -->
+                                    <circle cx="40" cy="30" r="22" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                    <circle cx="70" cy="30" r="18" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    <!-- Centers -->
+                                    <circle cx="40" cy="30" r="2" fill="#1565C0"/>
+                                    <circle cx="70" cy="30" r="2" fill="#D32F2F"/>
                                 </svg>
                             </td>
-                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">|r₁ - r₂| < d < r₁ + r₂</td>
-                            <td class="p-4"><span class="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 px-2 py-1 rounded text-sm font-bold">2</span></td>
-                            <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <span class="font-bold text-lg">2</span>
-                                        <span class="text-xs text-slate-500 block">(само външни)</span>
-                                    </div>
-                                    <svg viewBox="0 0 120 60" class="w-20 h-auto ml-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                        <line x1="15" y1="6" x2="95" y2="16" stroke="#F59E0B" stroke-width="2"/>
-                                        <line x1="15" y1="54" x2="95" y2="44" stroke="#F59E0B" stroke-width="2"/>
-                                        <circle cx="40" cy="30" r="22" stroke="#1565C0" stroke-width="2" fill="none"/>
-                                        <circle cx="70" cy="30" r="18" stroke="#D32F2F" stroke-width="2" fill="none"/>
-                                    </svg>
+                            <td class="p-4 text-center align-middle"><span class="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300 px-3 py-1.5 rounded-lg text-base font-bold shadow-sm">2</span></td>
+                            <td class="p-4 text-center align-middle">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="font-bold text-xl text-amber-600 dark:text-amber-500">2</span>
+                                    <span class="text-xs text-slate-500 font-medium whitespace-nowrap">(само външни)</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Допират се вътрешно</td>
+                            <td class="p-4 align-middle">
+                                <div class="font-semibold text-slate-800 dark:text-slate-200 text-lg">Допират се вътрешно</div>
+                                <div class="font-mono text-indigo-600 dark:text-indigo-400 mt-1 font-bold">d = |r₁ - r₂|, d ≠ 0</div>
+                            </td>
                             <td class="p-4 flex justify-center">
-                                <svg viewBox="0 0 120 60" class="w-24 h-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                    <line x1="55" y1="30" x2="67" y2="30" stroke="#2E7D32" stroke-width="2"/>
-                                    <circle cx="55" cy="30" r="26" stroke="#1565C0" stroke-width="2.5" fill="none"/>
-                                    <circle cx="67" cy="30" r="14" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
-                                    <circle cx="55" cy="30" r="2.5" fill="#1565C0"/>
-                                    <circle cx="67" cy="30" r="2.5" fill="#D32F2F"/>
+                                <svg viewBox="0 0 120 60" class="w-40 sm:w-56 h-auto drop-shadow-md transition-transform hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                    <line x1="55" y1="30" x2="67" y2="30" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="2 1"/>
+                                    <!-- Tangents -->
+                                    <line x1="81" y1="0" x2="81" y2="60" stroke="#F59E0B" stroke-width="1.5"/>
+                                    <!-- Circles -->
+                                    <circle cx="55" cy="30" r="26" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                    <circle cx="67" cy="30" r="14" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    <!-- Centers -->
+                                    <circle cx="55" cy="30" r="2" fill="#1565C0"/>
+                                    <circle cx="67" cy="30" r="2" fill="#D32F2F"/>
                                 </svg>
                             </td>
-                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d = |r₁ - r₂|, d ≠ 0</td>
-                            <td class="p-4"><span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 px-2 py-1 rounded text-sm font-bold">1</span></td>
-                            <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <div>
-                                        <span class="font-bold text-lg">1</span>
-                                        <span class="text-xs text-slate-500 block">(външна)</span>
-                                    </div>
-                                    <svg viewBox="0 0 120 60" class="w-20 h-auto ml-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                        <line x1="81" y1="0" x2="81" y2="60" stroke="#F59E0B" stroke-width="2"/>
-                                        <circle cx="55" cy="30" r="26" stroke="#1565C0" stroke-width="2" fill="none"/>
-                                        <circle cx="67" cy="30" r="14" stroke="#D32F2F" stroke-width="2" fill="none"/>
-                                    </svg>
+                            <td class="p-4 text-center align-middle"><span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 px-3 py-1.5 rounded-lg text-base font-bold shadow-sm">1</span></td>
+                            <td class="p-4 text-center align-middle">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="font-bold text-xl text-amber-600 dark:text-amber-500">1</span>
+                                    <span class="text-xs text-slate-500 font-medium whitespace-nowrap">(външна)</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Вътрешни (една в друга)</td>
+                            <td class="p-4 align-middle">
+                                <div class="font-semibold text-slate-800 dark:text-slate-200 text-lg">Вътрешни (една в друга)</div>
+                                <div class="font-mono text-indigo-600 dark:text-indigo-400 mt-1 font-bold">0 < d < |r₁ - r₂|</div>
+                            </td>
                             <td class="p-4 flex justify-center">
-                                <svg viewBox="0 0 120 60" class="w-24 h-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                    <line x1="60" y1="30" x2="65" y2="30" stroke="#2E7D32" stroke-width="2"/>
-                                    <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2.5" fill="none"/>
-                                    <circle cx="65" cy="30" r="10" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
-                                    <circle cx="60" cy="30" r="2.5" fill="#1565C0"/>
-                                    <circle cx="65" cy="30" r="2.5" fill="#D32F2F"/>
+                                <svg viewBox="0 0 120 60" class="w-40 sm:w-56 h-auto drop-shadow-md transition-transform hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                    <line x1="60" y1="30" x2="65" y2="30" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="2 1"/>
+                                    <!-- Circles -->
+                                    <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                    <circle cx="65" cy="30" r="10" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    <!-- Centers -->
+                                    <circle cx="60" cy="30" r="2" fill="#1565C0"/>
+                                    <circle cx="65" cy="30" r="2" fill="#D32F2F"/>
                                 </svg>
                             </td>
-                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">0 < d < |r₁ - r₂|</td>
-                            <td class="p-4"><span class="bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-sm font-bold">0</span></td>
-                            <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <div><span class="font-bold text-lg">0</span></div>
-                                    <svg viewBox="0 0 120 60" class="w-20 h-auto ml-auto drop-shadow-sm opacity-60" preserveAspectRatio="xMidYMid meet">
-                                        <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2" fill="none"/>
-                                        <circle cx="65" cy="30" r="10" stroke="#D32F2F" stroke-width="2" fill="none"/>
-                                    </svg>
+                            <td class="p-4 text-center align-middle"><span class="bg-slate-200 dark:bg-slate-700 px-3 py-1.5 rounded-lg text-base font-bold shadow-sm">0</span></td>
+                            <td class="p-4 text-center align-middle">
+                                <div class="flex flex-col items-center justify-center opacity-60">
+                                    <span class="font-bold text-xl text-slate-500">0</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Концентрични</td>
+                            <td class="p-4 align-middle">
+                                <div class="font-semibold text-slate-800 dark:text-slate-200 text-lg">Концентрични</div>
+                                <div class="font-mono text-indigo-600 dark:text-indigo-400 mt-1 font-bold">d = 0, r₁ ≠ r₂</div>
+                            </td>
                             <td class="p-4 flex justify-center">
-                                <svg viewBox="0 0 120 60" class="w-24 h-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                    <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2.5" fill="none"/>
-                                    <circle cx="60" cy="30" r="12" stroke="#D32F2F" stroke-width="2.5" fill="none"/>
-                                    <circle cx="60" cy="30" r="3" fill="#2E7D32"/>
+                                <svg viewBox="0 0 120 60" class="w-40 sm:w-56 h-auto drop-shadow-md transition-transform hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                    <!-- Circles -->
+                                    <circle cx="60" cy="30" r="26" stroke="#1565C0" stroke-width="2" fill="none"/>
+                                    <circle cx="60" cy="30" r="12" stroke="#D32F2F" stroke-width="2" fill="none"/>
+                                    <!-- Centers -->
+                                    <circle cx="60" cy="30" r="2.5" fill="#2E7D32"/>
                                 </svg>
                             </td>
-                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d = 0, r₁ ≠ r₂</td>
-                            <td class="p-4"><span class="bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded text-sm font-bold">0</span></td>
-                            <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <div><span class="font-bold text-lg">0</span></div>
+                            <td class="p-4 text-center align-middle"><span class="bg-slate-200 dark:bg-slate-700 px-3 py-1.5 rounded-lg text-base font-bold shadow-sm">0</span></td>
+                            <td class="p-4 text-center align-middle">
+                                <div class="flex flex-col items-center justify-center opacity-60">
+                                    <span class="font-bold text-xl text-slate-500">0</span>
                                 </div>
                             </td>
                         </tr>
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
-                            <td class="p-4 font-semibold text-slate-800 dark:text-slate-200">Съвпадащи</td>
+                            <td class="p-4 align-middle">
+                                <div class="font-semibold text-slate-800 dark:text-slate-200 text-lg">Съвпадащи</div>
+                                <div class="font-mono text-indigo-600 dark:text-indigo-400 mt-1 font-bold">d = 0, r₁ = r₂</div>
+                            </td>
                             <td class="p-4 flex justify-center">
-                                <svg viewBox="0 0 120 60" class="w-24 h-auto drop-shadow-sm" preserveAspectRatio="xMidYMid meet">
-                                    <circle cx="60" cy="30" r="20" stroke="#9C27B0" stroke-width="4" fill="none" stroke-dasharray="8 4"/>
+                                <svg viewBox="0 0 120 60" class="w-40 sm:w-56 h-auto drop-shadow-md transition-transform hover:scale-105" preserveAspectRatio="xMidYMid meet">
+                                    <!-- Circles -->
+                                    <circle cx="60" cy="30" r="20" stroke="#9C27B0" stroke-width="3.5" fill="none" stroke-dasharray="6 4"/>
+                                    <!-- Centers -->
                                     <circle cx="60" cy="30" r="2.5" fill="#9C27B0"/>
                                 </svg>
                             </td>
-                            <td class="p-4 font-mono text-indigo-600 dark:text-indigo-400">d = 0, r₁ = r₂</td>
-                            <td class="p-4"><span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 px-2 py-1 rounded text-sm font-bold">∞</span></td>
-                            <td class="p-4">
-                                <div class="flex items-center gap-3">
-                                    <div><span class="font-bold text-lg">Безброй</span></div>
+                            <td class="p-4 text-center align-middle"><span class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 px-3 py-1.5 rounded-lg text-base font-bold shadow-sm">∞</span></td>
+                            <td class="p-4 text-center align-middle">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="font-bold text-xl text-purple-600 dark:text-purple-400">Безброй</span>
                                 </div>
                             </td>
                         </tr>
@@ -535,8 +538,8 @@
                     <ol class="list-decimal list-outside ml-5 space-y-8 text-slate-700 dark:text-slate-300 leading-relaxed">
                         <li class="pl-2">
                             Дадени са окръжностите <i>k</i><sub>1</sub>(<i>O</i><sub>1</sub>; <i>R</i>), <i>R</i> = 8 cm и <i>k</i><sub>2</sub>(<i>O</i><sub>2</sub>; <i>r</i>), <i>r</i> = 5 cm. Колко общи точки имат двете окръжности, ако разстоянието <i>d</i> между центровете им е равно на:
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 320 100" class="w-full h-auto max-w-[320px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 320 100" class="w-full h-auto max-w-[450px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="50" cy="50" r="32" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle id="t1-o2" cx="130" cy="50" r="20" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <line id="t1-line" x1="50" y1="50" x2="130" y2="50" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="4 2"/>
@@ -559,8 +562,8 @@
                         
                         <li class="pl-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                             Дадени са окръжностите <i>k</i><sub>1</sub>(<i>O</i><sub>1</sub>; <i>R</i>), <i>R</i> = 10,5 cm и <i>k</i><sub>2</sub>(<i>O</i><sub>2</sub>; <i>r</i>), <i>r</i> = 3,8 cm. Определете взаимното положение на двете окръжности, ако разстоянието <i>d</i> е равно на:
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 240 80" class="w-full h-auto max-w-[240px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 240 80" class="w-full h-auto max-w-[360px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="50" cy="40" r="31.5" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle id="t2-o2" cx="92.9" cy="40" r="11.4" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <line id="t2-line" x1="50" y1="40" x2="92.9" y2="40" stroke="#2E7D32" stroke-width="1.5" stroke-dasharray="3 2"/>
@@ -577,8 +580,8 @@
                         
                         <li class="pl-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                             Дадени са окръжностите <i>k</i><sub>1</sub>(<i>O</i><sub>1</sub>; <i>R</i>), <i>R</i> = 15,3 cm и <i>k</i><sub>2</sub>(<i>O</i><sub>2</sub>; <i>r</i>), <i>r</i> = 6,7 cm. Намерете разстоянието <i>d</i>, ако окръжностите се допират:
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 200 80" class="w-[200px] h-auto drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 200 80" class="w-full max-w-[300px] h-auto drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="50" cy="40" r="30.6" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle id="t3-o2" cx="130" cy="40" r="13.4" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <circle cx="50" cy="40" r="2" fill="#1565C0"/>
@@ -593,8 +596,8 @@
                         
                         <li class="pl-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                             Дадени са окръжностите <i>k</i><sub>1</sub>(<i>O</i><sub>1</sub>; <i>R</i>) и <i>k</i><sub>2</sub>(<i>O</i><sub>2</sub>; <i>R</i>), които се пресичат в точките <i>A</i> и <i>B</i>. Докажете, че <i>O</i><sub>1</sub><i>A</i> || <i>O</i><sub>2</sub><i>B</i>.
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 200 120" class="w-full h-auto max-w-[200px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 200 120" class="w-full h-auto max-w-[300px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="80" cy="60" r="45" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle cx="120" cy="60" r="45" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <line id="t4-l1" x1="80" y1="60" x2="100" y2="20" stroke="#1565C0" stroke-width="1.5"/>
@@ -616,8 +619,8 @@
                         <li class="pl-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                             Дадена е отсечка <i>OA</i> = <i>R</i>. Окръжностите <i>k</i><sub>1</sub>(<i>O</i>; <i>R</i>) и <i>k</i><sub>2</sub>(<i>A</i>; <i>R</i>) се пресичат в <i>M</i> и <i>N</i>, а централата им ги пресича в <i>P</i> и <i>Q</i>.<br>
                             Докажете, че <i>ANOM</i> и <i>MPNQ</i> са ромбове.
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 200 120" class="w-full h-auto max-w-[220px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 200 120" class="w-full h-auto max-w-[320px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <polygon id="t5-poly1" points="130,60 100,112 70,60 100,8" fill="#1565C0" fill-opacity="0" stroke="#1565C0" stroke-width="1.5" stroke-opacity="0"/>
                                     <polygon id="t5-poly2" points="100,8 10,60 100,112 190,60" fill="#D32F2F" fill-opacity="0" stroke="#D32F2F" stroke-width="1.5" stroke-opacity="0"/>
                                     <circle cx="70" cy="60" r="60" stroke="#1565C0" stroke-width="2" fill="none"/>
@@ -647,8 +650,8 @@
                     <ol class="list-decimal list-outside ml-5 space-y-8 text-slate-700 dark:text-slate-300 leading-relaxed">
                         <li class="pl-2">
                             Окръжности <i>k</i><sub>1</sub>(<i>R</i>=10 cm) и <i>k</i><sub>2</sub>(<i>r</i>=4,5 cm). Колко общи допирателни имат, ако разстоянието <i>d</i> е:
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 250 80" class="w-full h-auto max-w-[250px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 250 80" class="w-full h-auto max-w-[360px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="50" cy="40" r="30" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle id="t6-o2" cx="140" cy="40" r="13.5" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <circle cx="50" cy="40" r="2" fill="#1565C0"/>
@@ -667,8 +670,8 @@
                         
                         <li class="pl-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                             Окръжностите <i>k</i><sub>1</sub>(<i>R</i>=7) и <i>k</i><sub>2</sub>(<i>r</i>=4) имат три общи допирателни. Намерете <i>O</i><sub>1</sub><i>O</i><sub>2</sub>.
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 200 100" class="w-full h-auto max-w-[200px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 200 100" class="w-full h-auto max-w-[300px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="50" cy="50" r="28" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle id="t7-o2" cx="130" cy="50" r="16" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <line id="t7-tan1" x1="-10" y1="3.9" x2="170" y2="54.9" stroke="#F59E0B" stroke-width="2" opacity="0"/>
@@ -683,8 +686,8 @@
                         
                         <li class="pl-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                             Окръжностите <i>k</i><sub>1</sub>(<i>R</i>=13) и <i>k</i><sub>2</sub>(<i>r</i>=7) имат една обща допирателна. Намерете <i>O</i><sub>1</sub><i>O</i><sub>2</sub>.
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 160 100" class="w-full h-auto max-w-[160px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 160 100" class="w-full h-auto max-w-[260px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="60" cy="50" r="39" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle id="t8-o2" cx="110" cy="50" r="21" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <line id="t8-tan" x1="99" y1="5" x2="99" y2="95" stroke="#F59E0B" stroke-width="2" opacity="0"/>
@@ -697,8 +700,8 @@
                         
                         <li class="pl-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                             Докажете, че допирните точки на общите външни допирателни до две окръжности са върхове на трапец.
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 200 120" class="w-full h-auto max-w-[220px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 200 120" class="w-full h-auto max-w-[320px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="60" cy="60" r="35" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle cx="150" cy="60" r="20" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <line x1="10" y1="16.1" x2="190" y2="46.5" stroke="#F59E0B" stroke-width="1.5"/>
@@ -715,8 +718,8 @@
                         
                         <li class="pl-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                             Докажете, че допирните точки на общите вътрешни допирателни до две окръжности са върхове на трапец.
-                            <div class="w-full flex justify-center mt-4 mb-3">
-                                <svg viewBox="0 0 200 120" class="w-full h-auto max-w-[220px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
+                            <div class="w-full flex justify-center mt-6 mb-5">
+                                <svg viewBox="0 0 200 120" class="w-full h-auto max-w-[320px] drop-shadow-sm dyn-svg" preserveAspectRatio="xMidYMid meet">
                                     <circle cx="50" cy="60" r="30" stroke="#1565C0" stroke-width="2" fill="none"/>
                                     <circle cx="150" cy="60" r="20" stroke="#D32F2F" stroke-width="2" fill="none"/>
                                     <line x1="20" y1="8" x2="180" y2="100.4" stroke="#F59E0B" stroke-width="1.5"/>
