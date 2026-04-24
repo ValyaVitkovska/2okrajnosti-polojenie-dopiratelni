@@ -48,14 +48,14 @@
             background-image: radial-gradient(circle 800px at calc(var(--mouse-x, 0.5) * 100%) calc(var(--mouse-y, 0.5) * 100%), rgba(99, 102, 241, 0.25), transparent);
         }
 
-        /* ИЗОЛИРАН КОНТЕЙНЕР ЗА GEOGEBRA */
+        /* ИЗОЛИРАН КОНТЕЙНЕР ЗА GEOGEBRA - Намалени размери за лаптоп */
         .ggb-wrapper { 
             width: 100%;
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
             display: block;
-            aspect-ratio: 900 / 540; /* КЛЮЧОВО ЗА ПРЕДОТВРАТЯВАНЕ НА ЕЛИПСИТЕ */
+            aspect-ratio: 800 / 400; /* ПРОМЕНЕНО ОТ 900/540 на по-компактно */
         }
 
         #ggb-element {
@@ -67,12 +67,13 @@
             background-color: white;
         }
 
+        /* Хоризонтални бутони за случаите */
         .case-item { 
             transition: all 0.3s ease; 
             cursor: pointer;
         }
         .case-item:hover:not(.case-active) {
-            transform: translateX(4px);
+            transform: translateY(-2px);
             background-color: rgba(255, 255, 255, 0.9);
         }
         .dark .case-item:hover:not(.case-active) {
@@ -80,18 +81,15 @@
         }
 
         .case-active { 
-            transform: scale(1.02) translateX(8px); 
+            transform: translateY(-4px); 
             border-color: #4f46e5 !important;
-            background: linear-gradient(to right, rgba(79, 70, 229, 0.1), transparent);
-            box-shadow: -4px 0 0 0 #4f46e5;
+            background: linear-gradient(to bottom, rgba(79, 70, 229, 0.1), transparent);
+            box-shadow: 0 -4px 0 0 #4f46e5;
         }
         .dark .case-active {
-            background: linear-gradient(to right, rgba(99, 102, 241, 0.2), transparent);
-            box-shadow: -4px 0 0 0 #818cf8;
+            background: linear-gradient(to bottom, rgba(99, 102, 241, 0.2), transparent);
+            box-shadow: 0 -4px 0 0 #818cf8;
         }
-        
-        .check-icon { opacity: 0; transform: scale(0); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .case-active .check-icon { opacity: 1; transform: scale(1); }
 
         .big-text-animate { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn { 0% { opacity: 0; transform: translateY(20px) scale(0.9); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
@@ -130,7 +128,6 @@
         #slider-r2::-webkit-slider-thumb { background: #D32F2F; }
         #slider-d::-webkit-slider-thumb { background: #2E7D32; }
 
-        /* ДИНАМИЧНИ ЧЕРТЕЖИ - Плавни CSS преходи за SVG атрибути */
         .dyn-svg * {
             transition: cx 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
                         x1 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
@@ -177,28 +174,27 @@
 <body class="text-slate-800 dark:text-slate-200 antialiased">
 
     <!-- Header -->
-    <header class="bg-indigo-600/90 backdrop-blur-md text-white py-4 px-6 shadow-lg sticky top-0 z-50">
+    <header class="bg-indigo-600/90 backdrop-blur-md text-white py-3 px-6 shadow-lg sticky top-0 z-50">
         <div class="max-w-screen-2xl mx-auto flex justify-between items-center">
-            <div class="font-bold text-xl md:text-2xl tracking-tight flex items-center gap-3">
+            <div class="font-bold text-xl tracking-tight flex items-center gap-3">
                 <svg class="w-6 h-6 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
                 Интерактивен урок по геометрия
             </div>
             
-            <button onclick="toggleTheme()" class="bg-white/20 hover:bg-white/30 text-white p-2.5 rounded-full backdrop-blur-sm transition-all focus:outline-none ring-2 ring-white/50 shadow-md" title="Смени темата">
+            <button onclick="toggleTheme()" class="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full backdrop-blur-sm transition-all focus:outline-none ring-2 ring-white/50 shadow-md" title="Смени темата">
                 <svg id="theme-icon-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 <svg id="theme-icon-moon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
             </button>
         </div>
     </header>
 
-    <main class="max-w-screen-2xl mx-auto px-4 sm:px-6 pb-12 mt-8 relative z-10">
+    <main class="max-w-screen-2xl mx-auto px-4 sm:px-6 pb-12 mt-6 relative z-10">
         
-        <!-- ГЛАВЕН БАНЕР ИЗОБРАЖЕНИЕ С ТЕКСТОВИ КРЕДИТИ -->
-        <div class="w-full flex flex-col items-center mb-10 px-2">
-            <!-- Добавен е onerror fallback за изображението -->
-            <img src="2okrajnosti.png" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Чертеж+на+две+окръжности';" alt="Чертеж на взаимно положение на две окръжности" class="w-full max-w-4xl rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 object-contain">
+        <!-- ГЛАВЕН БАНЕР -->
+        <div class="w-full flex flex-col items-center mb-6 px-2">
+            <img src="2okrajnosti.png" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Чертеж+на+две+окръжности';" alt="Чертеж на взаимно положение на две окръжности" class="w-full max-w-2xl max-h-56 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-700 object-contain bg-white dark:bg-slate-800">
             
-            <div class="mt-5 text-center text-slate-700 dark:text-slate-300 text-sm sm:text-base bg-white/70 dark:bg-slate-800/70 px-6 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm backdrop-blur-md flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <div class="mt-4 text-center text-slate-700 dark:text-slate-300 text-sm bg-white/70 dark:bg-slate-800/70 px-6 py-2 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm backdrop-blur-md flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
                 <div>
                     <span class="font-bold text-indigo-700 dark:text-indigo-400">Идея и педагогически решения:</span> Валя Витковска
                 </div>
@@ -209,136 +205,99 @@
             </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-6">
+        <!-- ОСНОВНА СЕКЦИЯ: Контроли горе, Чертеж долу -->
+        <div class="flex flex-col gap-4">
             
-            <!-- ЛЯВ ПАНЕЛ -->
-            <aside class="w-full lg:w-[350px] flex-shrink-0 flex flex-col gap-4">
+            <!-- ПЛЪЗГАЧИ -->
+            <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center gap-6">
+                <h2 class="text-lg font-bold items-center gap-2 text-indigo-700 dark:text-indigo-400 whitespace-nowrap hidden md:flex">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    Контроли
+                </h2>
                 
-                <!-- ПЛЪЗГАЧИ -->
-                <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-lg font-bold flex items-center gap-2 text-indigo-700 dark:text-indigo-400">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                            Контроли
-                        </h2>
-                        <button onclick="randomExample()" class="text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 py-1.5 px-3 rounded-lg transition-colors font-bold shadow-sm border border-slate-200 dark:border-slate-600" title="Генерирай случаен пример">
-                            Случаен пример 🎲
-                        </button>
-                    </div>
-                    
-                    <div class="mb-4">
+                <div class="flex-1 w-full grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div>
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-sm font-bold text-[#1565C0] dark:text-[#64B5F6]">Радиус r₁</label>
-                            <span id="lbl-r1" class="font-mono font-bold bg-[#1565C0]/10 text-[#1565C0] dark:text-[#64B5F6] px-2 py-0.5 rounded">5</span>
+                            <span id="lbl-r1" class="font-mono font-bold bg-[#1565C0]/10 text-[#1565C0] dark:text-[#64B5F6] px-2 py-0.5 rounded text-sm">5</span>
                         </div>
                         <input type="range" id="slider-r1" min="1" max="10" step="0.5" value="5">
                     </div>
-
-                    <div class="mb-4">
+                    <div>
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-sm font-bold text-[#D32F2F] dark:text-[#EF5350]">Радиус r₂</label>
-                            <span id="lbl-r2" class="font-mono font-bold bg-[#D32F2F]/10 text-[#D32F2F] dark:text-[#EF5350] px-2 py-0.5 rounded">3</span>
+                            <span id="lbl-r2" class="font-mono font-bold bg-[#D32F2F]/10 text-[#D32F2F] dark:text-[#EF5350] px-2 py-0.5 rounded text-sm">3</span>
                         </div>
                         <input type="range" id="slider-r2" min="1" max="10" step="0.5" value="3">
                     </div>
-
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <label class="text-sm font-bold text-[#2E7D32] dark:text-[#81C784]">Разстояние d (O₁O₂)</label>
-                            <span id="lbl-d" class="font-mono font-bold bg-[#2E7D32]/10 text-[#2E7D32] dark:text-[#81C784] px-2 py-0.5 rounded">10</span>
+                            <span id="lbl-d" class="font-mono font-bold bg-[#2E7D32]/10 text-[#2E7D32] dark:text-[#81C784] px-2 py-0.5 rounded text-sm">10</span>
                         </div>
                         <input type="range" id="slider-d" min="0" max="25" step="0.5" value="10">
                     </div>
                 </div>
 
-                <!-- СПИСЪК СЪС СЛУЧАИ -->
-                <div class="flex flex-col gap-2 mt-2">
-                    <div id="case-ext" onclick="setSpecificCase('ext')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
-                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Външни окръжности</div>
-                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d > r₁ + r₂</div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400">4 общи допирателни</div>
-                    </div>
+                <button onclick="randomExample()" class="text-sm bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 py-2 px-4 rounded-xl transition-colors font-bold shadow-sm border border-slate-200 dark:border-slate-600 whitespace-nowrap w-full md:w-auto" title="Генерирай случаен пример">
+                    Случаен пример 🎲
+                </button>
+            </div>
 
-                    <div id="case-ext-touch" onclick="setSpecificCase('ext-touch')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
-                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Допират се външно</div>
-                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d = r₁ + r₂</div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400">3 общи допирателни</div>
-                    </div>
-
-                    <div id="case-int" onclick="setSpecificCase('int')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
-                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Пресичат се</div>
-                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">|r₁ - r₂| < d < r₁ + r₂</div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400">2 общи допирателни</div>
-                    </div>
-
-                    <div id="case-int-touch" onclick="setSpecificCase('int-touch')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
-                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Допират се вътрешно</div>
-                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d = |r₁ - r₂| (d ≠ 0)</div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400">1 обща допирателна</div>
-                    </div>
-
-                    <div id="case-inside" onclick="setSpecificCase('inside')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
-                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Вътрешни (една в друга)</div>
-                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">0 < d < |r₁ - r₂|</div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400">0 общи допирателни</div>
-                    </div>
-
-                    <div id="case-conc" onclick="setSpecificCase('conc')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
-                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Концентрични окръжности</div>
-                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d = 0, r₁ ≠ r₂</div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400">0 общи допирателни</div>
-                    </div>
-
-                    <div id="case-coinc" onclick="setSpecificCase('coinc')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
-                        <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                        </div>
-                        <div class="font-bold text-slate-800 dark:text-white leading-tight">Съвпадащи окръжности</div>
-                        <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">d = 0, r₁ = r₂</div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400">Безброй общи допирателни</div>
-                    </div>
+            <!-- БУТОНИ ЗА СЛУЧАИ -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+                <div id="case-ext" onclick="setSpecificCase('ext')" title="4 общи допирателни" class="case-item p-2 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 flex flex-col items-center justify-center text-center hover:shadow-sm">
+                    <div class="font-bold text-slate-800 dark:text-white text-sm leading-tight">Външни</div>
+                    <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-xs mt-1">d > r₁ + r₂</div>
                 </div>
-            </aside>
+                <div id="case-ext-touch" onclick="setSpecificCase('ext-touch')" title="3 общи допирателни" class="case-item p-2 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 flex flex-col items-center justify-center text-center hover:shadow-sm">
+                    <div class="font-bold text-slate-800 dark:text-white text-sm leading-tight">Допират външно</div>
+                    <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-xs mt-1">d = r₁ + r₂</div>
+                </div>
+                <div id="case-int" onclick="setSpecificCase('int')" title="2 общи допирателни" class="case-item p-2 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 flex flex-col items-center justify-center text-center hover:shadow-sm">
+                    <div class="font-bold text-slate-800 dark:text-white text-sm leading-tight">Пресичат се</div>
+                    <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-xs mt-1">|r₁-r₂| < d < r₁+r₂</div>
+                </div>
+                <div id="case-int-touch" onclick="setSpecificCase('int-touch')" title="1 обща допирателна" class="case-item p-2 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 flex flex-col items-center justify-center text-center hover:shadow-sm">
+                    <div class="font-bold text-slate-800 dark:text-white text-sm leading-tight">Допират вътрешно</div>
+                    <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-xs mt-1">d = |r₁ - r₂|</div>
+                </div>
+                <div id="case-inside" onclick="setSpecificCase('inside')" title="0 общи допирателни" class="case-item p-2 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 flex flex-col items-center justify-center text-center hover:shadow-sm">
+                    <div class="font-bold text-slate-800 dark:text-white text-sm leading-tight">Вътрешни</div>
+                    <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-xs mt-1">0 < d < |r₁ - r₂|</div>
+                </div>
+                <div id="case-conc" onclick="setSpecificCase('conc')" title="0 общи допирателни" class="case-item p-2 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 flex flex-col items-center justify-center text-center hover:shadow-sm">
+                    <div class="font-bold text-slate-800 dark:text-white text-sm leading-tight">Концентрични</div>
+                    <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-xs mt-1">d = 0, r₁ ≠ r₂</div>
+                </div>
+                <div id="case-coinc" onclick="setSpecificCase('coinc')" title="Безброй общи допирателни" class="case-item p-2 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 flex flex-col items-center justify-center text-center hover:shadow-sm sm:col-span-2 lg:col-span-1">
+                    <div class="font-bold text-slate-800 dark:text-white text-sm leading-tight">Съвпадащи</div>
+                    <div class="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-xs mt-1">d = 0, r₁ = r₂</div>
+                </div>
+            </div>
 
-            <!-- ДЕСЕН ПАНЕЛ -->
-            <div class="w-full lg:flex-1 flex flex-col min-w-0">
+            <!-- ЧЕРТЕЖ И СТАТУС (Успоредно на лаптоп) -->
+            <div class="flex flex-col lg:flex-row gap-4">
                 
-                <!-- Статичен контейнер с aspect-ratio, който не позволява разпъване -->
-                <div class="w-full bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 mb-6">
+                <!-- Статичен контейнер с чертеж -->
+                <div class="w-full lg:flex-[2] bg-white dark:bg-slate-800 p-2 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
                     <div class="ggb-wrapper">
-                        <!-- Самото GeoGebra платно, което следва изцяло пропорциите на wrapper-a -->
                         <div id="ggb-element"></div>
                     </div>
                 </div>
 
-                <div class="w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700 text-center flex flex-col items-center justify-center min-h-[160px]">
-                    <div id="big-formula" class="text-2xl md:text-3xl font-mono font-bold mb-3 tracking-wider text-slate-800 dark:text-white big-text-animate"></div>
-                    <div id="big-status" class="text-2xl md:text-4xl font-extrabold pb-1 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600 big-text-animate" style="line-height: 1.3;"></div>
-                    <div id="tangents-status" class="text-lg md:text-xl font-bold mt-3 text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-4 py-2 rounded-full inline-block border border-amber-200 dark:border-amber-700/50 big-text-animate shadow-sm"></div>
+                <!-- Статус панел с формула -->
+                <div class="w-full lg:flex-[1] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-2xl shadow-lg p-6 border border-slate-200 dark:border-slate-700 text-center flex flex-col items-center justify-center lg:min-h-0 min-h-[160px]">
+                    <div id="big-formula" class="text-xl md:text-2xl font-mono font-bold mb-3 tracking-wider text-slate-800 dark:text-white big-text-animate"></div>
+                    <div id="big-status" class="text-2xl md:text-3xl font-extrabold pb-1 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-600 big-text-animate" style="line-height: 1.3;"></div>
+                    <div id="tangents-status" class="text-base md:text-lg font-bold mt-4 text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-4 py-2 rounded-xl inline-block border border-amber-200 dark:border-amber-700/50 big-text-animate shadow-sm w-full"></div>
                 </div>
             </div>
+
         </div>
 
         <!-- ОБОБЩИТЕЛНА ТАБЛИЦА -->
-        <section class="mt-16 pt-8 border-t border-slate-300 dark:border-slate-700">
+        <section class="mt-12 pt-8 border-t border-slate-300 dark:border-slate-700">
             <h2 class="text-2xl font-extrabold mb-6 text-center text-slate-800 dark:text-white flex justify-center items-center gap-3">
                 <svg class="w-7 h-7 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                 Обобщителна таблица
@@ -782,8 +741,8 @@
         var params = {
             "appName": "classic",
             "perspective": "G",
-            "width": 900,
-            "height": 540,
+            "width": 800,   // Намалена ширина
+            "height": 400,  // Намалена височина
             "showToolBar": false,
             "showAlgebraInput": false,
             "showMenuBar": false,
@@ -799,10 +758,10 @@
             "appletOnLoad": function(api) {
                 ggbAppletApi = api;
                 
-                // Настройки на платното
+                // Настройки на платното (Адаптирани за новите пропорции 800x400)
                 api.setAxesVisible(false, false);
                 api.setGridVisible(false);
-                api.setCoordSystem(-15, 35, -15, 15);
+                api.setCoordSystem(-10, 40, -12.5, 12.5); 
                 
                 // Дефиниране на променливите
                 api.evalCommand('r_1 = 5');
