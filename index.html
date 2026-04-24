@@ -67,7 +67,18 @@
             background-color: white;
         }
 
-        .case-item { transition: all 0.3s ease; }
+        .case-item { 
+            transition: all 0.3s ease; 
+            cursor: pointer;
+        }
+        .case-item:hover:not(.case-active) {
+            transform: translateX(4px);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        .dark .case-item:hover:not(.case-active) {
+            background-color: rgba(30, 41, 59, 0.9);
+        }
+
         .case-active { 
             transform: scale(1.02) translateX(8px); 
             border-color: #4f46e5 !important;
@@ -184,7 +195,8 @@
         
         <!-- ГЛАВЕН БАНЕР ИЗОБРАЖЕНИЕ С ТЕКСТОВИ КРЕДИТИ -->
         <div class="w-full flex flex-col items-center mb-10 px-2">
-            <img src="2okrajnosti.png" alt="Чертеж на взаимно положение на две окръжности" class="w-full max-w-4xl rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 object-contain">
+            <!-- Добавен е onerror fallback за изображението -->
+            <img src="2okrajnosti.png" onerror="this.onerror=null; this.src='https://placehold.co/800x400/e2e8f0/475569?text=Чертеж+на+две+окръжности';" alt="Чертеж на взаимно положение на две окръжности" class="w-full max-w-4xl rounded-3xl shadow-xl border border-slate-200 dark:border-slate-700 object-contain">
             
             <div class="mt-5 text-center text-slate-700 dark:text-slate-300 text-sm sm:text-base bg-white/70 dark:bg-slate-800/70 px-6 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm backdrop-blur-md flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
                 <div>
@@ -241,7 +253,7 @@
 
                 <!-- СПИСЪК СЪС СЛУЧАИ -->
                 <div class="flex flex-col gap-2 mt-2">
-                    <div id="case-ext" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                    <div id="case-ext" onclick="setSpecificCase('ext')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
                         <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
@@ -250,7 +262,7 @@
                         <div class="text-xs text-slate-600 dark:text-slate-400">4 общи допирателни</div>
                     </div>
 
-                    <div id="case-ext-touch" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                    <div id="case-ext-touch" onclick="setSpecificCase('ext-touch')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
                         <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
@@ -259,7 +271,7 @@
                         <div class="text-xs text-slate-600 dark:text-slate-400">3 общи допирателни</div>
                     </div>
 
-                    <div id="case-int" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                    <div id="case-int" onclick="setSpecificCase('int')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
                         <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
@@ -268,7 +280,7 @@
                         <div class="text-xs text-slate-600 dark:text-slate-400">2 общи допирателни</div>
                     </div>
 
-                    <div id="case-int-touch" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                    <div id="case-int-touch" onclick="setSpecificCase('int-touch')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
                         <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
@@ -277,7 +289,7 @@
                         <div class="text-xs text-slate-600 dark:text-slate-400">1 обща допирателна</div>
                     </div>
 
-                    <div id="case-inside" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                    <div id="case-inside" onclick="setSpecificCase('inside')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
                         <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
@@ -286,7 +298,7 @@
                         <div class="text-xs text-slate-600 dark:text-slate-400">0 общи допирателни</div>
                     </div>
 
-                    <div id="case-conc" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                    <div id="case-conc" onclick="setSpecificCase('conc')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
                         <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
@@ -295,7 +307,7 @@
                         <div class="text-xs text-slate-600 dark:text-slate-400">0 общи допирателни</div>
                     </div>
 
-                    <div id="case-coinc" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative">
+                    <div id="case-coinc" onclick="setSpecificCase('coinc')" title="Покажи този случай" class="case-item p-3 rounded-xl border-2 border-transparent bg-white/60 dark:bg-slate-800/60 relative hover:shadow-sm">
                         <div class="check-icon absolute left-[-12px] top-1/2 -translate-y-1/2 bg-indigo-600 text-white rounded-full p-0.5 shadow-md">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
@@ -1046,6 +1058,61 @@
                     break;
             }
             
+            sliderR1.value = r1;
+            sliderR2.value = r2;
+            sliderD.value = d;
+            updateUI();
+        }
+
+        function setSpecificCase(caseType) {
+            let r1 = parseFloat(sliderR1.value);
+            let r2 = parseFloat(sliderR2.value);
+            let d = parseFloat(sliderD.value);
+
+            // Функция, която гарантира, че r1 и r2 са различни (за вътрешни и концентрични случаи)
+            const makeDiff = () => {
+                if (Math.abs(r1 - r2) < 1) {
+                    if (r1 >= 5) r2 = r1 - 2;
+                    else r2 = r1 + 2;
+                }
+            };
+
+            switch(caseType) {
+                case 'ext':
+                    d = r1 + r2 + 2;
+                    if (d > 25) { r1 = 5; r2 = 3; d = 10; } // Fallback, ако стойностите станат прекалено големи
+                    break;
+                case 'ext-touch':
+                    d = r1 + r2;
+                    if (d > 25) { r1 = 5; r2 = 3; d = 8; }
+                    break;
+                case 'int':
+                    if (r1 === r2 && r1 < 2) r1 = 3;
+                    let diff = Math.abs(r1 - r2);
+                    let sum = r1 + r2;
+                    d = diff + (sum - diff) / 2;
+                    d = Math.round(d * 2) / 2; // Закръгляне до най-близката стъпка от 0.5
+                    break;
+                case 'int-touch':
+                    makeDiff();
+                    d = Math.abs(r1 - r2);
+                    break;
+                case 'inside':
+                    makeDiff();
+                    d = Math.abs(r1 - r2) / 2;
+                    d = Math.max(0.5, Math.round(d * 2) / 2);
+                    if (d >= Math.abs(r1 - r2)) d = Math.abs(r1 - r2) - 0.5; // Защита
+                    break;
+                case 'conc':
+                    makeDiff();
+                    d = 0;
+                    break;
+                case 'coinc':
+                    r2 = r1;
+                    d = 0;
+                    break;
+            }
+
             sliderR1.value = r1;
             sliderR2.value = r2;
             sliderD.value = d;
